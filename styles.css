@@ -6,3 +6,7 @@ body {
     max-width: 200px;
     margin-bottom: 10px;/* Mantiene la proporción de aspecto */
   }
+  .modal-content {
+    background-color: #000000; /* Color de fondo negro */
+    color: #ffffff; /* Color del texto blanco */
+  }
