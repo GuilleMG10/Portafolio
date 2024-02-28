@@ -1,0 +1,8 @@
+body {
+  background-color: #000000; /* Fondo negro */
+  color: #ffffff; /* Texto blanco */
+}
+  #profile-img {
+    max-width: 200px;
+    margin-bottom: 10px;/* Mantiene la proporción de aspecto */
+  }
