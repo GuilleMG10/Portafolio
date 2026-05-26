@@ -203,6 +203,7 @@
     font-weight: 600;
     color: var(--text);
   }
+  .proj-nav-link.left { text-align: left; }
   .proj-nav-link.right { text-align: right; }
   .proj-nav-center {
     font-family: 'JetBrains Mono', monospace;
@@ -213,12 +214,45 @@
   }
   .proj-nav-center:hover { color: var(--accent); }
 
+  /* --- TABLET BREAKPOINT (hasta 900px) --- */
   @media (max-width: 900px) {
-    .project-hero { padding: 6rem 1.5rem 3rem; }
-    .content { padding: 3rem 1.5rem; }
+    .project-hero { padding: 6rem 2rem 3rem; }
+    .content { padding: 3rem 2rem; }
     .feat-grid { grid-template-columns: 1fr; }
-    .project-nav { padding: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .project-nav { padding: 2rem; gap: 1rem; }
     .proj-nav-link { min-width: 140px; }
+  }
+
+  /* --- MOBILE BREAKPOINT (hasta 600px) --- */
+  @media (max-width: 600px) {
+    .project-hero { padding: 5rem 1.5rem 2rem; }
+    .content { padding: 2rem 1.5rem; }
+    
+    .hero-meta { 
+      flex-direction: column; 
+      align-items: flex-start; 
+      gap: 0.8rem; 
+    }
+
+    .project-nav { 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem; 
+    }
+    
+    .proj-nav-link { 
+      width: 100%; 
+      align-items: center;
+      text-align: center; 
+    }
+    
+    /* Centramos el texto de ambos botones explícitamente en móvil */
+    .proj-nav-link.left,
+    .proj-nav-link.right { 
+      text-align: center; 
+    }
   }
 </style>
 </head>
@@ -308,7 +342,6 @@
 
 </div>
 
-<!-- project navigation -->
 <div class="project-nav">
   <a href="gym.html" class="proj-nav-link left">
     <span class="proj-nav-label">← Previous</span>

@@ -64,6 +64,28 @@
     font-size: 0.72rem;
     color: var(--text-dim);
   }
+  
+  /* Nuevo estilo para el enlace del sitio */
+  .site-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: #4F8EF7;
+    text-decoration: none;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid rgba(79, 142, 247, 0.3);
+    border-radius: 4px;
+    background: rgba(79, 142, 247, 0.05);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .site-link:hover {
+    background: rgba(79, 142, 247, 0.15);
+    border-color: #4F8EF7;
+    transform: translateY(-2px);
+  }
+
   .thesis-badge {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
@@ -213,12 +235,46 @@
   }
   .proj-nav-center:hover { color: var(--accent); }
 
+  /* --- TABLET BREAKPOINT (hasta 900px) --- */
   @media (max-width: 900px) {
-    .project-hero { padding: 6rem 1.5rem 3rem; }
-    .content { padding: 3rem 1.5rem; }
+    .project-hero { padding: 6rem 2rem 3rem; }
+    .content { padding: 3rem 2rem; }
     .feat-grid { grid-template-columns: 1fr; }
-    .project-nav { padding: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .project-nav { padding: 2rem; gap: 1rem; }
     .proj-nav-link { min-width: 140px; }
+  }
+
+  /* --- MOBILE BREAKPOINT (hasta 600px) --- */
+  @media (max-width: 600px) {
+    .project-hero { padding: 5rem 1.5rem 2rem; }
+    .content { padding: 2rem 1.5rem; }
+    
+    .hero-meta { 
+      flex-direction: column; 
+      align-items: flex-start; 
+      gap: 0.8rem; 
+    }
+
+    .project-nav { 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem; 
+    }
+    
+    .project-nav div:first-child { 
+      display: none; 
+    }
+    
+    .proj-nav-link { 
+      width: 100%; 
+      align-items: center;
+      text-align: center; 
+    }
+    .proj-nav-link.right { 
+      text-align: center; 
+    }
   }
 </style>
 </head>
@@ -242,6 +298,8 @@
     <div class="hero-meta">
       <span class="live-badge"><span class="live-dot"></span>Live in production</span>
       <span class="hero-period">Mar 2026 – Present</span>
+      <!-- Nuevo botón de enlace implementado aquí -->
+      <a href="https://acsbolivia.com" target="_blank" rel="noopener noreferrer" class="site-link">acsbolivia.com ↗</a>
     </div>
   </div>
 </div>
