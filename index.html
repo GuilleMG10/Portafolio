@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Guillermo Maldonado — Backend Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0A0A0F;
+    --bg-2:      #0F0F17;
+    --bg-3:      #141420;
+    --bg-card:   #111119;
+    --border:    #1E1E2E;
+    --border-2:  #2A2A3E;
+    --accent:    #4F8EF7;
+    --accent-2:  #7B5EA7;
+    --accent-3:  #2DD4BF;
+    --text:      #E8E6F0;
+    --text-mid:  #8884A0;
+    --text-dim:  #44425A;
+    --white:     #F0EEF8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* grid bg */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* glow blob */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -20vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80vw;
+    height: 60vh;
+    background: radial-gradient(ellipse, rgba(79,142,247,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-logo span { color: var(--text-mid); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--text-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    background: var(--accent) !important;
+    color: var(--bg) !important;
+    padding: 0.4rem 1rem;
+    border-radius: 3px;
+    font-weight: 500 !important;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 4rem 5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-content { max-width: 760px; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    border: 1px solid rgba(79,142,247,0.3);
+    background: rgba(79,142,247,0.06);
+    padding: 0.35rem 0.9rem;
+    border-radius: 3px;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.1s forwards;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent-3);
+    animation: pulse 2s infinite;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.25s forwards;
+  }
+
+  .hero h1 .line-dim { color: var(--text-mid); font-weight: 300; }
+  .hero h1 .line-accent { color: var(--accent); }
+
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--text-mid);
+    line-height: 1.75;
+    max-width: 500px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.4s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.55s forwards;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 500;
+  }
+
+  .btn-primary:hover { background: #6BA3FF; transform: translateY(-2px); }
+
+  .btn-ghost {
+    border: 1px solid var(--border-2);
+    color: var(--text-mid);
+    background: transparent;
+  }
+
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-2);
+  }
+
+  .stat {
+    flex: 1;
+    padding: 1.8rem 2rem;
+    border-right: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+
+  .stat:hover::before { transform: scaleX(1); }
+
+  .stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2.2rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-num span { color: var(--accent); }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 7rem 4rem;
+  }
+
+  .section-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .eyebrow-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .eyebrow-line {
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+
+  .eyebrow-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 4rem;
+    line-height: 1.1;
+  }
+
+  /* ── PROJECT CARDS ── */
+  .projects-list { display: flex; flex-direction: column; gap: 1.5px; }
+
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 240px;
+    transition: border-color 0.25s, transform 0.25s;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .project-card.featured {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: unset;
+  }
+
+  /* left panel */
+  .project-left {
+    border-right: 1px solid var(--border);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--bg-2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-left::before {
+    content: '';
+    position: absolute;
+    bottom: -40px; right: -40px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: var(--project-color, var(--accent));
+    opacity: 0.05;
+    filter: blur(20px);
+  }
+
+  .project-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+  }
+
+  .project-icon-wrap {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+
+  .project-sector {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--project-color, var(--accent));
+    margin-bottom: 0.5rem;
+  }
+
+  .project-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+  }
+
+  /* right panel */
+  .project-right {
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+
+  .project-desc {
+    font-size: 0.875rem;
+    color: var(--text-mid);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    flex: 1;
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tech-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: var(--text-mid);
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+  }
+
+  .project-highlights {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-highlights li {
+    font-size: 0.78rem;
+    color: var(--text-mid);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .project-highlights li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--project-color, var(--accent));
+    font-size: 0.9rem;
+  }
+
+  .project-footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-3);
+  }
+
+  .live-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent-3);
+    animation: pulse 2s infinite;
+  }
+
+  .special-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: #F5C842;
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+  }
+
+  .arrow-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color 0.2s, gap 0.2s;
+    text-decoration: none;
+  }
+
+  .project-card:hover .arrow-link { color: var(--accent); gap: 0.6rem; }
+
+  /* featured project top banner */
+  .project-banner {
+    padding: 2rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .banner-left { display: flex; align-items: center; gap: 1.5rem; }
+
+  /* ── ABOUT ── */
+  .about-section { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    line-height: 1.8;
+    margin-bottom: 1.2rem;
+  }
+
+  .about-text strong { color: var(--text); font-weight: 600; }
+
+  .terminal {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-2);
+  }
+
+  .t-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .t-red { background: #FF5F57; }
+  .t-yellow { background: #FEBC2E; }
+  .t-green { background: #28C840; }
+
+  .terminal-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    margin-left: 0.5rem;
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 2;
+  }
+
+  .t-comment { color: var(--text-dim); }
+  .t-key { color: var(--accent); }
+  .t-val { color: var(--accent-3); }
+  .t-str { color: #F5C842; }
+  .t-punct { color: var(--text-mid); }
+  .t-arr { color: var(--accent-2); }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .contact-grid {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2.5rem;
+  }
+
+  .contact-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem 2rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 160px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .contact-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+
+  .contact-card-icon { font-size: 1.5rem; }
+
+  .contact-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+  }
+
+  .contact-card-value {
+    font-size: 0.82rem;
+    color: var(--text);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg-2);
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+
+  .footer-logo span { color: var(--accent); }
+
+  .footer-copy {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .stats-bar { flex-wrap: wrap; }
+    .stat { min-width: 50%; border-bottom: 1px solid var(--border); }
+    .project-card { grid-template-columns: 1fr; }
+    .project-left { border-right: none; border-bottom: 1px solid var(--border); }
+    .project-highlights { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    footer { padding: 1.2rem 1.5rem; flex-direction: column; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">guillermo<span>.dev</span></a>
+  <ul class="nav-links">
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#about">about</a></li>
+    <li><a href="#contact" class="nav-cta">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-tag">Available for backend roles · Cochabamba, Bolivia</span>
+    <h1>
+      <span class="line-dim">Backend Engineer.</span><br>
+      <span>Systems that</span><br>
+      <span class="line-accent">ship.</span>
+    </h1>
+    <p class="hero-desc">
+      I design and build scalable REST APIs, clean architecture backends,
+      and full-stack systems for real businesses —
+      5 production systems across 4 industry sectors.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View Projects →</a>
+      <a href="https://github.com/GuilleMG10" class="btn btn-ghost" target="_blank">GitHub ↗</a>
+      <a href="mailto:guillermomaldonadodev@gmail.com" class="btn btn-ghost">Contact</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">5</div>
+    <div class="stat-label">Production Systems</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">4</div>
+    <div class="stat-label">Industry Sectors</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">6<span>th</span></div>
+    <div class="stat-label">ICPC Bolivia 2023</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100<span>/100</span></div>
+    <div class="stat-label">Thesis Score</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3<span>+</span></div>
+    <div class="stat-label">Years Building</div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-eyebrow">
+    <span class="eyebrow-num">01</span>
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Selected Projects</span>
+  </div>
+  <h2 class="section-title">Production systems.<br><span style="color:var(--text-mid);font-weight:300;">Real clients. Daily use.</span></h2>
+
+  <div class="projects-list">
+
+    <!-- ACS -->
+    <div class="project-card" style="--project-color: #4F8EF7;">
+      <div class="project-left">
+        <div>
+          <div class="project-num">PROJECT / 01</div>
+          <div class="project-icon-wrap">🏥</div>
+          <div class="project-sector">Medical · Non-Profit</div>
+        </div>
+        <div class="project-period">Mar 2026 – Present</div>
+      </div>
+      <div class="project-right">
+        <h3 class="project-title">ACS Bolivia Web Platform</h3>
+        <p class="project-desc">Official web platform for the American College of Surgeons Bolivia chapter. Built for congress and student management, with a public-facing site receiving thousands of visitors and a private admin panel for the ACS board members.</p>
+        <div class="project-tech">
+          <span class="tech-tag">NestJS</span>
+          <span class="tech-tag">Next.js</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Prisma</span>
+          <span class="tech-tag">JWT</span>
+        </div>
+        <ul class="project-highlights">
+          <li>Public landing with thousands of visitors</li>
+          <li>Private admin panel for board members</li>
+          <li>Registration system with full validation</li>
+          <li>Direct requirements with ACS board</li>
+        </ul>
+        <div class="project-footer-row">
+          <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+          <a href="acs-bolivia.html" class="arrow-link" style="text-decoration:none;">View details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONINARDE -->
+    <div class="project-card" style="--project-color: #F97316;">
+      <div class="project-left">
+        <div>
+          <div class="project-num">PROJECT / 02</div>
+          <div class="project-icon-wrap">🏗️</div>
+          <div class="project-sector">Construction · Management</div>
+        </div>
+        <div class="project-period">Feb 2026 – Present</div>
+      </div>
+      <div class="project-right">
+        <h3 class="project-title">Coninarde — Construction Management System</h3>
+        <p class="project-desc">Comprehensive management system used daily by construction company staff. Handles project tracking, employee management, contract control, materials logistics, and budget monitoring across active construction sites.</p>
+        <div class="project-tech">
+          <span class="tech-tag">NestJS</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">TypeORM</span>
+          <span class="tech-tag">RBAC</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">CI/CD</span>
+        </div>
+        <ul class="project-highlights">
+          <li>Project and progress tracking API</li>
+          <li>Contracts, materials & budget</li>
+          <li>Role-based access for all staff</li>
+          <li>Production deploy with CI/CD</li>
+        </ul>
+        <div class="project-footer-row">
+          <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+          <a href="acs-bolivia.html" class="arrow-link" style="text-decoration:none;">View details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- GYM -->
+    <div class="project-card" style="--project-color: #2DD4BF;">
+      <div class="project-left">
+        <div>
+          <div class="project-num">PROJECT / 03</div>
+          <div class="project-icon-wrap">💪</div>
+          <div class="project-sector">Fitness · SaaS</div>
+        </div>
+        <div class="project-period">Jun 2023 – Present</div>
+      </div>
+      <div class="project-right">
+        <h3 class="project-title">Gym Management Software</h3>
+        <p class="project-desc">Custom backend system for a gym managing memberships, attendance tracking, payment control, and user profiles. Deployed and actively used by gym staff and clients on a daily basis.</p>
+        <div class="project-tech">
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">JWT</span>
+          <span class="tech-tag">RBAC</span>
+        </div>
+        <ul class="project-highlights">
+          <li>Membership & attendance API</li>
+          <li>Payment and billing tracking</li>
+          <li>Role-based access control</li>
+          <li>Custom DB for gym operations</li>
+        </ul>
+        <div class="project-footer-row">
+          <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+          <a href="acs-bolivia.html" class="arrow-link" style="text-decoration:none;">View details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLINICA -->
+    <div class="project-card" style="--project-color: #A78BFA;">
+      <div class="project-left">
+        <div>
+          <div class="project-num">PROJECT / 04</div>
+          <div class="project-icon-wrap">✨</div>
+          <div class="project-sector">Healthcare · Admin</div>
+        </div>
+        <div class="project-period">Jun 2023 – Present</div>
+      </div>
+      <div class="project-right">
+        <h3 class="project-title">Estética Clínica — Admin System</h3>
+        <p class="project-desc">Administrative backend for an aesthetic clinic. Manages appointments, patient records, treatment history, and staff roles — designed around the clinic's daily operational workflow and built for reliability.</p>
+        <div class="project-tech">
+          <span class="tech-tag">NestJS</span>
+          <span class="tech-tag">Prisma</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">JWT</span>
+          <span class="tech-tag">RBAC</span>
+        </div>
+        <ul class="project-highlights">
+          <li>Appointment & patient management</li>
+          <li>Treatment history tracking</li>
+          <li>Auth and RBAC for all roles</li>
+          <li>Custom DB for clinic needs</li>
+        </ul>
+        <div class="project-footer-row">
+          <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+          <a href="acs-bolivia.html" class="arrow-link" style="text-decoration:none;">View details →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TESIS -->
+    <div class="project-card" style="--project-color: #F5C842; border-color: rgba(245,200,66,0.2);">
+      <div class="project-left" style="background: rgba(245,200,66,0.04);">
+        <div>
+          <div class="project-num">PROJECT / 05</div>
+          <div class="project-icon-wrap">🎓</div>
+          <div class="project-sector" style="color:#F5C842;">Thesis · Undergraduate</div>
+        </div>
+        <div class="project-period">Aug 2025 – Apr 2026</div>
+      </div>
+      <div class="project-right">
+        <h3 class="project-title">Cost Management System for Bolivian Entrepreneurs</h3>
+        <p class="project-desc">Full-stack system designed for Bolivian entrepreneurs to manage business costs, finances, and operations. My undergraduate thesis at UCB — scored 100/100 and graduated with honors. Built with microservices architecture designed for long-term scale.</p>
+        <div class="project-tech">
+          <span class="tech-tag">Microservices</span>
+          <span class="tech-tag">NestJS</span>
+          <span class="tech-tag">Next.js</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">Clean Architecture</span>
+          <span class="tech-tag">SOLID</span>
+          <span class="tech-tag">RBAC</span>
+          <span class="tech-tag">Cloud Deploy</span>
+        </div>
+        <ul class="project-highlights">
+          <li>Microservices architecture</li>
+          <li>Complex relational DB modeling</li>
+          <li>Cloud infrastructure deployment</li>
+          <li>Clean Architecture + SOLID</li>
+        </ul>
+        <div class="project-footer-row">
+          <span class="special-badge">⭐ Score 100/100 · Graduated with Honors</span>
+          <a href="acs-bolivia.html" class="arrow-link" style="text-decoration:none;">View details →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+  <div class="section-eyebrow">
+    <span class="eyebrow-num">02</span>
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">About</span>
+  </div>
+  <h2 class="section-title" style="margin-bottom:3rem;">The engineer<br><span style="color:var(--text-mid);font-weight:300;">behind the systems.</span></h2>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a <strong>Backend Software Engineer</strong> based in Cochabamba, Bolivia, specialized in building scalable REST APIs, clean architecture systems, and full-stack applications that go live and stay live.</p>
+      <p>I've independently delivered production systems for clients across <strong>healthcare, fitness, construction, and non-profit</strong> sectors. Every project I've shipped is still running in production, used daily by real people.</p>
+      <p>I'm a <strong>competitive programmer</strong> — ranked 6th nationally at ICPC Bolivia 2023 and trained internationally in Buenos Aires and Rosario. I was also <strong>President of the Systems Engineering Student Council</strong> at UCB (2024–2026).</p>
+      <p>Graduated with honors from <strong>Universidad Católica Boliviana "San Pablo"</strong> with a perfect thesis score, and completed an academic exchange at <strong>Universidad del Salvador</strong> in Buenos Aires, Argentina.</p>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-header">
+        <div class="t-dot t-red"></div>
+        <div class="t-dot t-yellow"></div>
+        <div class="t-dot t-green"></div>
+        <span class="terminal-title">guillermo.json</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-punct">{</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"role"</span><span class="t-punct">:</span> <span class="t-str">"Backend Engineer"</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"location"</span><span class="t-punct">:</span> <span class="t-str">"Cochabamba, Bolivia"</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"backend"</span><span class="t-punct">:</span> <span class="t-arr">[</span><span class="t-str">"NestJS"</span><span class="t-punct">,</span> <span class="t-str">"Node.js"</span><span class="t-punct">,</span> <span class="t-str">"TypeScript"</span><span class="t-arr">]</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"frontend"</span><span class="t-punct">:</span> <span class="t-arr">[</span><span class="t-str">"React"</span><span class="t-punct">,</span> <span class="t-str">"Next.js"</span><span class="t-arr">]</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"databases"</span><span class="t-punct">:</span> <span class="t-arr">[</span><span class="t-str">"PostgreSQL"</span><span class="t-punct">,</span> <span class="t-str">"Prisma"</span><span class="t-arr">]</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"patterns"</span><span class="t-punct">:</span> <span class="t-arr">[</span><span class="t-str">"Clean Arch"</span><span class="t-punct">,</span> <span class="t-str">"SOLID"</span><span class="t-punct">,</span> <span class="t-str">"RBAC"</span><span class="t-arr">]</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"languages"</span><span class="t-punct">:</span> <span class="t-arr">[</span><span class="t-str">"TypeScript"</span><span class="t-punct">,</span> <span class="t-str">"Python"</span><span class="t-punct">,</span> <span class="t-str">"C++"</span><span class="t-arr">]</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"icpc"</span><span class="t-punct">:</span> <span class="t-str">"6th place Bolivia 2023"</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"thesis"</span><span class="t-punct">:</span> <span class="t-val">100</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"open_to"</span><span class="t-punct">:</span> <span class="t-str">"backend roles"</span></div>
+        <div><span class="t-punct">}</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="section-eyebrow" style="justify-content:center; margin-bottom:1rem;">
+    <span class="eyebrow-num">03</span>
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Contact</span>
+  </div>
+  <h2 class="section-title">Let's build<br><span style="color:var(--text-mid);font-weight:300;">something that ships.</span></h2>
+  <p style="font-size:0.95rem;color:var(--text-mid);max-width:440px;margin:0 auto;line-height:1.7;">
+    Open to backend engineering roles, freelance projects, and interesting collaborations.
+  </p>
+  <div class="contact-grid">
+    <a href="mailto:guillermomaldonadodev@gmail.com" class="contact-card">
+      <span class="contact-card-icon">✉</span>
+      <span class="contact-card-label">Email</span>
+      <span class="contact-card-value">guillermomaldonadodev@gmail.com</span>
+    </a>
+    <a href="https://linkedin.com/in/guillemaldonadodev" class="contact-card" target="_blank">
+      <span class="contact-card-icon">in</span>
+      <span class="contact-card-label">LinkedIn</span>
+      <span class="contact-card-value">guillemaldonadodev</span>
+    </a>
+    <a href="https://github.com/GuilleMG10" class="contact-card" target="_blank">
+      <span class="contact-card-icon">⌥</span>
+      <span class="contact-card-label">GitHub</span>
+      <span class="contact-card-value">GuilleMG10</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">guillermo<span>.dev</span></span>
+  <span class="footer-copy">© 2026 Guillermo Maldonado Gil · Cochabamba, Bolivia</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ACS Bolivia Web Platform — Guillermo Maldonado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .project-hero {
+    min-height: 52vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-glow {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 20% 50%, #4F8EF710 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent); }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #4F8EF7;
+    margin-bottom: 0.8rem;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    max-width: 720px;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+  .thesis-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: #F5C842;
+    background: rgba(245,200,66,0.08);
+    border: 1px solid rgba(245,200,66,0.2);
+    padding: 0.25rem 0.7rem;
+    border-radius: 3px;
+  }
+
+  /* content */
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #4F8EF7;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+  }
+
+  .section-text {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+
+  /* tech stack */
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  /* feature cards */
+  .feat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .feat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid #4F8EF7;
+    border-radius: 4px;
+    padding: 1.4rem 1.6rem;
+    transition: border-color 0.2s;
+  }
+  .feat-card:hover { border-color: #4F8EF7; }
+  .feat-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .feat-desc {
+    font-size: 0.82rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  /* results */
+  .results-list { display: flex; flex-direction: column; gap: 0.7rem; }
+  .result-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+  .result-check {
+    color: #4F8EF7;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  /* nav between projects */
+  .project-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    background: var(--bg-2);
+    position: relative;
+    z-index: 1;
+  }
+  .proj-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.2s, background 0.2s;
+    min-width: 200px;
+  }
+  .proj-nav-link:hover { border-color: var(--accent); background: var(--bg-card); }
+  .proj-nav-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .proj-nav-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .proj-nav-link.right { text-align: right; }
+  .proj-nav-center {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .proj-nav-center:hover { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .project-hero { padding: 6rem 1.5rem 3rem; }
+    .content { padding: 3rem 1.5rem; }
+    .feat-grid { grid-template-columns: 1fr; }
+    .project-nav { padding: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .proj-nav-link { min-width: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">guillermo<span>.dev</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">projects</a></li>
+    <li><a href="index.html#about">about</a></li>
+    <li><a href="index.html#contact" class="nav-cta">contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-hero">
+  <div class="hero-glow"></div>
+  <div style="position:relative;z-index:1;width:100%;">
+    <a href="index.html#projects" class="back-link">← Back to all projects</a>
+    <div class="hero-eyebrow">PROJECT 01  ·  Medical · Non-Profit</div>
+    <h1 class="hero-title">ACS Bolivia Web Platform</h1>
+    <div class="hero-meta">
+      <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+      <span class="hero-period">Mar 2026 – Present</span>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Overview</div>
+  <p class="section-text">Official web platform for the American College of Surgeons Bolivia chapter. Built for congress and student management, with a public-facing site receiving thousands of visitors and a private admin panel for the ACS board members.</p>
+
+  <div class="section-label">Tech Stack</div>
+  <div class="tech-stack"><span class="tech-tag">NestJS</span><span class="tech-tag">Next.js</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">TypeScript</span><span class="tech-tag">Prisma</span><span class="tech-tag">JWT</span><span class="tech-tag">RBAC</span><span class="tech-tag">Tailwind CSS</span></div>
+
+  <hr class="divider">
+
+  <div class="section-label">The Challenge</div>
+  <h2 class="section-title">What problem needed solving</h2>
+  <p class="section-text">The ACS Bolivia chapter needed a unified digital presence that served two very different audiences at once: thousands of medical professionals visiting the public congress page, and a small group of board members managing registrations and content through a private admin panel.</p>
+
+  <div class="section-label">The Solution</div>
+  <h2 class="section-title">How I built it</h2>
+  <p class="section-text">Built a decoupled architecture with a public Next.js frontend and a secure NestJS backend. The admin panel uses role-based access control to restrict sensitive operations, while the public site is optimized for performance and SEO to handle high traffic during congress periods.</p>
+
+  <hr class="divider">
+
+  <div class="section-label">Key Features</div>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-title">Public Landing Page</div>
+      <div class="feat-desc">High-traffic public site for congress announcements, speaker profiles, and event schedules. Optimized for thousands of concurrent visitors.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Private Admin Panel</div>
+      <div class="feat-desc">Secure dashboard for ACS board members to manage registrations, content, and attendee data with full CRUD operations.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Registration System</div>
+      <div class="feat-desc">Full registration flow with email validation, duplicate prevention, status tracking, and relational database design.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Direct Client Coordination</div>
+      <div class="feat-desc">Worked directly with ACS board members through multiple requirement gathering sessions to ensure the platform matched their operational needs.</div>
+    </div></div>
+
+  <hr class="divider">
+
+  <div class="section-label">Results</div>
+  <div class="results-list">
+    <div class="result-item">
+      <span class="result-check">✓</span>
+      <span>Thousands of medical professionals reached through the public platform</span>
+    </div>
+    <div class="result-item">
+      <span class="result-check">✓</span>
+      <span>Board members managing registrations independently through the admin panel</span>
+    </div>
+    <div class="result-item">
+      <span class="result-check">✓</span>
+      <span>Zero downtime since launch during congress periods</span>
+    </div>
+    <div class="result-item">
+      <span class="result-check">✓</span>
+      <span>Full audit trail for all registration and admin actions</span>
+    </div></div>
+
+</div>
+
+<!-- project navigation -->
+<div class="project-nav">
+  <div></div>
+
+  <a href="index.html#projects" class="proj-nav-center">All Projects ↑</a>
+
+  <a href="coninarde.html" class="proj-nav-link right">
+    <span class="proj-nav-label">Next →</span>
+    <span class="proj-nav-title">Coninarde</span>
+  </a>
+</div>
+
+<footer>
+  <span class="footer-logo">guillermo<span>.dev</span></span>
+  <span class="footer-copy">© 2026 Guillermo Maldonado Gil · Cochabamba, Bolivia</span>
+</footer>
+
+</body>
+</html>
