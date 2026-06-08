@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Multi-tenant SaaS API — Guillermo Maldonado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .project-hero {
+    min-height: 52vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-glow {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 20% 50%, #2DD4BF10 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent-3); }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-3);
+    margin-bottom: 0.8rem;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    max-width: 720px;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+  .github-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent-3);
+    text-decoration: none;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid rgba(45,212,191,0.3);
+    border-radius: 4px;
+    background: rgba(45,212,191,0.05);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .github-pill:hover {
+    background: rgba(45,212,191,0.12);
+    border-color: var(--accent-3);
+    transform: translateY(-2px);
+  }
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-3);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+  }
+  .section-text {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+  }
+  .feat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .feat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-3);
+    border-radius: 4px;
+    padding: 1.4rem 1.6rem;
+    transition: border-color 0.2s;
+  }
+  .feat-card:hover { border-color: var(--accent-3); }
+  .feat-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .feat-desc {
+    font-size: 0.82rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+  .arch-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+    overflow-x: auto;
+  }
+  .arch-block pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+    white-space: pre;
+  }
+  .arch-block pre .hl { color: var(--accent-3); }
+  .arch-block pre .hl2 { color: var(--accent); }
+  .results-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 3rem; }
+  .result-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+  .result-check {
+    color: var(--accent-3);
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .endpoint-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin-bottom: 2rem;
+  }
+  .endpoint-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+  }
+  .endpoint-table td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-mid);
+    vertical-align: top;
+  }
+  .endpoint-table tr:last-child td { border-bottom: none; }
+  .method {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+  }
+  .method-get { color: #2DD4BF; background: rgba(45,212,191,0.1); }
+  .method-post { color: #4F8EF7; background: rgba(79,142,247,0.1); }
+  .method-patch { color: #F5C842; background: rgba(245,200,66,0.1); }
+  .method-delete { color: #F87171; background: rgba(248,113,113,0.1); }
+  .endpoint-path {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text);
+  }
+  .roles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .role-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+  }
+  .role-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--accent-3);
+    margin-bottom: 0.6rem;
+  }
+  .role-desc {
+    font-size: 0.8rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+  .project-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    background: var(--bg-2);
+    position: relative;
+    z-index: 1;
+  }
+  .proj-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.2s, background 0.2s;
+    min-width: 200px;
+  }
+  .proj-nav-link:hover { border-color: var(--accent); background: var(--bg-card); }
+  .proj-nav-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .proj-nav-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .proj-nav-link.right { text-align: right; }
+  .proj-nav-center {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .proj-nav-center:hover { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .project-hero { padding: 6rem 2rem 3rem; }
+    .content { padding: 3rem 2rem; }
+    .feat-grid { grid-template-columns: 1fr; }
+    .roles-grid { grid-template-columns: 1fr; }
+    .project-nav { padding: 2rem; gap: 1rem; }
+    .proj-nav-link { min-width: 140px; }
+  }
+  @media (max-width: 600px) {
+    .project-hero { padding: 5rem 1.5rem 2rem; }
+    .content { padding: 2rem 1.5rem; }
+    .hero-meta { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    .project-nav { flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 1.5rem; }
+    .project-nav div:first-child { display: none; }
+    .proj-nav-link { width: 100%; align-items: center; text-align: center; }
+    .proj-nav-link.right { text-align: center; }
+    .endpoint-table { font-size: 0.75rem; }
+    .endpoint-table th, .endpoint-table td { padding: 0.5rem 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">guillermo<span>.dev</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">projects</a></li>
+    <li><a href="index.html#open-source">open source</a></li>
+    <li><a href="index.html#about">about</a></li>
+    <li><a href="index.html#contact" class="nav-cta">contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-hero">
+  <div class="hero-glow"></div>
+  <div style="position:relative;z-index:1;width:100%;">
+    <a href="index.html#open-source" class="back-link">← Back to personal projects</a>
+    <div class="hero-eyebrow">Personal Project · SaaS · Backend Infrastructure</div>
+    <h1 class="hero-title">Multi-tenant SaaS API</h1>
+    <div class="hero-meta">
+      <span class="hero-period">2025</span>
+      <a href="https://github.com/GuilleMG10/api-multitenant" target="_blank" class="github-pill">GitHub ↗</a>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Overview</div>
+  <p class="section-text">Production-grade multi-tenant REST API built to demonstrate Clean Architecture, SOLID principles, and the ability to ship scalable SaaS backend infrastructure. The project covers the full surface of a real SaaS product: tenant provisioning, JWT authentication, role-based access, Stripe billing, and Swagger documentation — all in a single deployable stack.</p>
+
+  <div class="section-label">Tech Stack</div>
+  <div class="tech-stack">
+    <span class="tech-tag">NestJS 10</span>
+    <span class="tech-tag">TypeScript strict</span>
+    <span class="tech-tag">PostgreSQL 16</span>
+    <span class="tech-tag">TypeORM 0.3</span>
+    <span class="tech-tag">Stripe API</span>
+    <span class="tech-tag">JWT (access + refresh)</span>
+    <span class="tech-tag">Swagger / OpenAPI 3.0</span>
+    <span class="tech-tag">Docker + docker-compose</span>
+    <span class="tech-tag">Jest</span>
+    <span class="tech-tag">class-validator</span>
+    <span class="tech-tag">Joi</span>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Architecture</div>
+  <h2 class="section-title">Multi-tenancy via schema isolation</h2>
+  <p class="section-text">Each tenant gets its own dedicated PostgreSQL schema (e.g., <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;color:var(--accent-3);">tenant_acme</code>, <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;color:var(--accent-3);">tenant_globex</code>). The <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;color:var(--accent-3);">TenantInterceptor</code> resolves the tenant from the <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;color:var(--accent-3);">X-Tenant-ID</code> header on every request, attaches it to the request context, and services use <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;color:var(--accent-3);">SET search_path</code> to scope all queries to the correct schema automatically.</p>
+
+  <div class="arch-block">
+    <pre>
+<span class="hl">CLIENTS</span>  →  curl / Postman / Frontend
+              │
+              │  X-Tenant-ID: acme
+              ▼
+<span class="hl">NestJS API (:3000)</span>
+  │
+  ├── <span class="hl2">TenantInterceptor</span>   ← resolves tenant from header or subdomain
+  │
+  ├── JwtAuthGuard → RolesGuard → Controller → Service
+  │
+  ├── <span class="hl2">Auth Module</span>     register / login / refresh / logout
+  ├── <span class="hl2">Tenants Module</span>  CRUD + schema provisioning
+  ├── <span class="hl2">Users Module</span>    management with RBAC
+  ├── <span class="hl2">Billing Module</span>  Stripe customers + subscriptions + webhooks
+  └── <span class="hl2">Plans Module</span>    SaaS plan catalog
+              │
+    ┌─────────┼─────────────┐
+    ▼         ▼             ▼
+PostgreSQL  Stripe API     JWT
+│
+├── public schema     → users, tenants, plans
+├── tenant_acme       ← isolated per tenant
+└── tenant_globex
+</pre>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Key Features</div>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-title">Schema-per-tenant isolation</div>
+      <div class="feat-desc">Each tenant gets a dedicated PostgreSQL schema provisioned on creation. The <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">TenantDataSourceService</code> manages connections and the <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">TenantInterceptor</code> scopes every request automatically.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">JWT auth with token rotation</div>
+      <div class="feat-desc">Access tokens (15m) and refresh tokens (7d) with separate secrets. The refresh endpoint issues a new access token while rotating the refresh token — no long-lived sessions.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Stripe billing integration</div>
+      <div class="feat-desc">Full Stripe flow: create customer, assign subscription, handle <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">invoice.paid</code> and <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">customer.subscription.deleted</code> webhooks, expose billing portal URL. Runs in Stripe test mode.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Three-role RBAC system</div>
+      <div class="feat-desc">SUPER_ADMIN, ADMIN, and MEMBER roles enforced via custom <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">@Roles()</code> decorator + <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">RolesGuard</code>. Each endpoint declares its minimum required role declaratively.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Env validation with Joi</div>
+      <div class="feat-desc">All environment variables are validated at startup using a Joi schema. The app refuses to start if any required variable is missing or malformed — no silent config errors in production.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Swagger / OpenAPI 3.0</div>
+      <div class="feat-desc">Full API documentation auto-generated at <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">/api/docs</code>. Every endpoint, DTO, and auth guard is documented with request/response schemas.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Global exception filter</div>
+      <div class="feat-desc">All errors are normalized into a consistent shape: <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">{ statusCode, message, error, timestamp, path }</code>. No raw NestJS stack traces leak to the client.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Docker + docker-compose</div>
+      <div class="feat-desc">PostgreSQL service defined in <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">docker-compose.yml</code>. Full production build also containerized. One command to spin up the entire local stack.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">API Endpoints</div>
+  <h2 class="section-title">Auth</h2>
+  <table class="endpoint-table">
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/v1/auth/register</td><td>Register new user</td></tr>
+      <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/v1/auth/login</td><td>Login → returns JWT pair</td></tr>
+      <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/v1/auth/refresh</td><td>Rotate access token</td></tr>
+      <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/v1/auth/logout</td><td>Invalidate refresh token</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section-title">Tenants <span style="font-size:0.65rem;font-family:'JetBrains Mono',monospace;color:var(--text-dim);font-weight:300;letter-spacing:0.1em;">SUPER_ADMIN only</span></h2>
+  <table class="endpoint-table">
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/v1/tenants</td><td>Create tenant + provision schema</td></tr>
+      <tr><td><span class="method method-get">GET</span></td><td class="endpoint-path">/api/v1/tenants</td><td>List tenants (paginated)</td></tr>
+      <tr><td><span class="method method-get">GET</span></td><td class="endpoint-path">/api/v1/tenants/:id</td><td>Get tenant details</td></tr>
+      <tr><td><span class="method method-patch">PATCH</span></td><td class="endpoint-path">/api/v1/tenants/:id</td><td>Update tenant</td></tr>
+      <tr><td><span class="method method-delete">DELETE</span></td><td class="endpoint-path">/api/v1/tenants/:id</td><td>Delete tenant + drop schema</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section-title">Users <span style="font-size:0.65rem;font-family:'JetBrains Mono',monospace;color:var(--text-dim);font-weight:300;letter-spacing:0.1em;">authenticated · tenant-scoped</span></h2>
+  <table class="endpoint-table">
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/v1/users</td><td>Create user (ADMIN+)</td></tr>
+      <tr><td><span class="method method-get">GET</span></td><td class="endpoint-path">/api/v1/users</td><td>List users in tenant</td></tr>
+      <tr><td><span class="method method-get">GET</span></td><td class="endpoint-path">/api/v1/users/:id</td><td>Get user by ID</td></tr>
+      <tr><td><span class="method method-patch">PATCH</span></td><td class="endpoint-path">/api/v1/users/:id</td><td>Update user</td></tr>
+      <tr><td><span class="method method-delete">DELETE</span></td><td class="endpoint-path">/api/v1/users/:id</td><td>Delete user (ADMIN+)</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section-title">Billing <span style="font-size:0.65rem;font-family:'JetBrains Mono',monospace;color:var(--text-dim);font-weight:300;letter-spacing:0.1em;">SUPER_ADMIN / ADMIN</span></h2>
+  <table class="endpoint-table">
+    <thead><tr><th>Method</th><th>Endpoint</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/v1/billing/customers/:tenantId</td><td>Create Stripe customer</td></tr>
+      <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/v1/billing/subscriptions/:id</td><td>Assign a paid plan</td></tr>
+      <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/v1/billing/subscriptions/:id/cancel</td><td>Cancel subscription</td></tr>
+      <tr><td><span class="method method-get">GET</span></td><td class="endpoint-path">/api/v1/billing/portal/:tenantId</td><td>Get billing portal URL</td></tr>
+      <tr><td><span class="method method-post">POST</span></td><td class="endpoint-path">/api/v1/billing/webhook</td><td>Stripe webhook (public)</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="divider">
+
+  <div class="section-label">RBAC</div>
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-name">SUPER_ADMIN</div>
+      <div class="role-desc">Full access to all resources across all tenants. Can provision and delete tenant schemas, manage plans, and access billing for any tenant.</div>
+    </div>
+    <div class="role-card">
+      <div class="role-name">ADMIN</div>
+      <div class="role-desc">Manage users and billing within their own tenant. Cannot access other tenant data or global operations.</div>
+    </div>
+    <div class="role-card">
+      <div class="role-name">MEMBER</div>
+      <div class="role-desc">Read-only access within tenant. Can update their own profile. Cannot manage users or billing.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Design Decisions</div>
+  <div class="results-list">
+    <div class="result-item">
+      <span class="result-check">→</span>
+      <span><strong style="color:var(--text);">Schema per tenant over row-level isolation</strong> — stronger data boundary guarantees, simpler query logic (no tenant_id filters everywhere), and easier to migrate or offboard a single tenant's data.</span>
+    </div>
+    <div class="result-item">
+      <span class="result-check">→</span>
+      <span><strong style="color:var(--text);">Interceptor-level tenant resolution</strong> — tenant context is attached once at the request boundary and available to all downstream services without passing it as a parameter through every function call.</span>
+    </div>
+    <div class="result-item">
+      <span class="result-check">→</span>
+      <span><strong style="color:var(--text);">Joi schema validation at startup</strong> — fail fast on missing config rather than letting the app run in a broken state and fail at runtime when a feature is first hit.</span>
+    </div>
+    <div class="result-item">
+      <span class="result-check">→</span>
+      <span><strong style="color:var(--text);">Separate access and refresh token secrets</strong> — a compromised refresh secret doesn't automatically compromise short-lived access tokens, and vice versa.</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="project-nav">
+  <div></div>
+  <a href="index.html#open-source" class="proj-nav-center">All Personal Projects ↑</a>
+  <a href="ocanamos.html" class="proj-nav-link right">
+    <span class="proj-nav-label">Next →</span>
+    <span class="proj-nav-title">O'Cañamos?</span>
+  </a>
+</div>
+
+<footer>
+  <span class="footer-logo">guillermo<span>.dev</span></span>
+  <span class="footer-copy">© 2026 Guillermo Maldonado Gil · Cochabamba, Bolivia</span>
+</footer>
+
+</body>
+</html>

@@ -17,7 +17,7 @@ Static portfolio site built with vanilla HTML, CSS, and JavaScript. No framework
 
 ---
 
-## Projects Featured
+## Client Projects (Private · NDA)
 
 | Project | Domain | Stack |
 |---|---|---|
@@ -26,6 +26,13 @@ Static portfolio site built with vanilla HTML, CSS, and JavaScript. No framework
 | [Gym Management Software](gym.html) | Fitness | Node.js, TypeScript, PostgreSQL, JWT, RBAC |
 | [Estética Clínica Admin](clinica.html) | Healthcare | NestJS, Prisma, PostgreSQL, JWT |
 | [Cost Management System](thesis.html) | Thesis | Microservices, Clean Architecture, SOLID |
+
+## Open Source Projects
+
+| Project | Domain | Stack | Repo |
+|---|---|---|---|
+| Multi-tenant SaaS API | SaaS Backend Infrastructure | NestJS, PostgreSQL, Stripe, JWT, Docker | [github.com/GuilleMG10/api-multitenant](https://github.com/GuilleMG10/api-multitenant) |
+| O'Cañamos? | Mobile / React Native | Expo SDK 54, React Navigation, Animated API, EAS Build | [github.com/GuilleMG10/ocanamos](https://github.com/GuilleMG10/ocanamos) |
 
 ---
 

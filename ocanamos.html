@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>O'Cañamos? — Guillermo Maldonado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .project-hero {
+    min-height: 52vh;
+    display: flex;
+    align-items: flex-end;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-glow {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 20% 50%, #7B5EA710 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent-2); }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 0.8rem;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    max-width: 720px;
+  }
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .hero-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+  .github-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent-2);
+    text-decoration: none;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid rgba(123,94,167,0.3);
+    border-radius: 4px;
+    background: rgba(123,94,167,0.05);
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .github-pill:hover {
+    background: rgba(123,94,167,0.12);
+    border-color: var(--accent-2);
+    transform: translateY(-2px);
+  }
+  .content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 1.2rem;
+  }
+  .section-text {
+    font-size: 0.95rem;
+    color: var(--text-mid);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+  }
+  .feat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .feat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-2);
+    border-radius: 4px;
+    padding: 1.4rem 1.6rem;
+    transition: border-color 0.2s;
+  }
+  .feat-card:hover { border-color: var(--accent-2); }
+  .feat-title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .feat-desc {
+    font-size: 0.82rem;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+  .minigames-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+  .minigame-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    transition: border-color 0.2s;
+  }
+  .minigame-card:hover { border-color: var(--accent-2); }
+  .minigame-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 0.3rem;
+  }
+  .minigame-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+  }
+  .minigame-desc {
+    font-size: 0.75rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+    margin-bottom: 3rem;
+  }
+  .special-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(123,94,167,0.2);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    font-size: 0.78rem;
+    color: var(--text-mid);
+  }
+  .special-card strong {
+    display: block;
+    color: var(--accent-2);
+    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
+  }
+  .results-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 3rem; }
+  .result-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+  .result-check {
+    color: var(--accent-2);
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .project-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    background: var(--bg-2);
+    position: relative;
+    z-index: 1;
+  }
+  .proj-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-decoration: none;
+    padding: 1rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.2s, background 0.2s;
+    min-width: 200px;
+  }
+  .proj-nav-link:hover { border-color: var(--accent); background: var(--bg-card); }
+  .proj-nav-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .proj-nav-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .proj-nav-link.right { text-align: right; }
+  .proj-nav-center {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .proj-nav-center:hover { color: var(--accent); }
+
+  @media (max-width: 900px) {
+    .project-hero { padding: 6rem 2rem 3rem; }
+    .content { padding: 3rem 2rem; }
+    .feat-grid { grid-template-columns: 1fr; }
+    .minigames-grid { grid-template-columns: 1fr 1fr; }
+    .cards-grid { grid-template-columns: 1fr 1fr; }
+    .project-nav { padding: 2rem; gap: 1rem; }
+    .proj-nav-link { min-width: 140px; }
+  }
+  @media (max-width: 600px) {
+    .project-hero { padding: 5rem 1.5rem 2rem; }
+    .content { padding: 2rem 1.5rem; }
+    .hero-meta { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    .minigames-grid { grid-template-columns: 1fr; }
+    .cards-grid { grid-template-columns: 1fr 1fr; }
+    .project-nav { flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 1.5rem; }
+    .project-nav div:first-child { display: none; }
+    .proj-nav-link { width: 100%; align-items: center; text-align: center; }
+    .proj-nav-link.right { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">guillermo<span>.dev</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">projects</a></li>
+    <li><a href="index.html#open-source">open source</a></li>
+    <li><a href="index.html#about">about</a></li>
+    <li><a href="index.html#contact" class="nav-cta">contact</a></li>
+  </ul>
+</nav>
+
+<div class="project-hero">
+  <div class="hero-glow"></div>
+  <div style="position:relative;z-index:1;width:100%;">
+    <a href="index.html#open-source" class="back-link">← Back to personal projects</a>
+    <div class="hero-eyebrow">Personal Project · Mobile · React Native</div>
+    <h1 class="hero-title">O'Cañamos?</h1>
+    <div class="hero-meta">
+      <span class="hero-period">2025</span>
+      <a href="https://github.com/GuilleMG10/ocanamos" target="_blank" class="github-pill">GitHub ↗</a>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="section-label">Overview</div>
+  <p class="section-text">Single-device party game for Android groups. One phone is passed hand-to-hand between players — each turn, a slot machine reveals one of 12 minigames with completely different mechanics, animations, and rules. Built as a personal challenge to push React Native's animation system and manage complex, branching game state without any third-party state management or audio libraries.</p>
+
+  <div class="section-label">Tech Stack</div>
+  <div class="tech-stack">
+    <span class="tech-tag">React Native</span>
+    <span class="tech-tag">Expo SDK 54</span>
+    <span class="tech-tag">React Navigation v7</span>
+    <span class="tech-tag">Animated API</span>
+    <span class="tech-tag">useReducer + Context API</span>
+    <span class="tech-tag">Vibration API</span>
+    <span class="tech-tag">expo-screen-orientation</span>
+    <span class="tech-tag">EAS Build</span>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Technical Challenges</div>
+  <h2 class="section-title">12 different game states, one state machine</h2>
+  <p class="section-text">The core challenge: each minigame has its own internal state, win/lose conditions, and transitions — but they all live inside a single global <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;color:var(--accent-2);">useReducer</code> that tracks turns, player order, the special card inventory, mirror effects, and the running counter. Every screen reads from this shared context and dispatches typed actions — no prop drilling, no external state library.</p>
+
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-title">Animated API — no libraries</div>
+      <div class="feat-desc">The slot machine reveal, dice roll, splash screen, and chaos button are all built with React Native's built-in <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">Animated</code> API. No Reanimated, no Lottie, no external dependencies — just <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">Animated.Value</code>, <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">timing()</code>, and <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">spring()</code>.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Single useReducer state machine</div>
+      <div class="feat-desc">All game state — players, turns, scores, card inventories, mirror effects — is managed through a single typed <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">useReducer</code> + <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">Context</code> tree. Each minigame dispatches typed actions; the reducer handles all valid transitions.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Haptic feedback, no audio</div>
+      <div class="feat-desc">Every interaction has physical feedback through the <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">Vibration API</code> with custom vibration patterns per event type. Zero audio files — no permission requests, no file size overhead.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">Special card system</div>
+      <div class="feat-desc">Cards earned in the Auction minigame are stored in each player's inventory and can be played from the end-of-round screen. Each card type has a different effect on game state — shields, doubles, mirrors, wildcards — all handled as state transitions.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">EAS Build → Android APK</div>
+      <div class="feat-desc">The project uses EAS (Expo Application Services) with a <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">preview</code> profile that generates an unsigned APK for direct sideloading, and a <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">production</code> profile with auto-increment versioning for Play Store.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-title">portrait locked + screen orientation</div>
+      <div class="feat-desc">Uses <code style="font-family:'JetBrains Mono',monospace;font-size:0.85em;">expo-screen-orientation</code> to lock the app in portrait mode globally — important for the hand-to-hand UX where the device changes orientation as it's passed between players.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Minigames</div>
+  <h2 class="section-title">12 distinct mechanics</h2>
+  <div class="minigames-grid">
+    <div class="minigame-card">
+      <div class="minigame-num">01</div>
+      <div class="minigame-name">🎲 Todis</div>
+      <div class="minigame-desc">Animated dice roll. Each face maps to a different outcome. Face 6 triggers the mirror effect.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">02</div>
+      <div class="minigame-name">🃏 Cards</div>
+      <div class="minigame-desc">Challenge or question deck. Pass or accumulate a counter. 48 unique cards.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">03</div>
+      <div class="minigame-name">🧠 Trivia</div>
+      <div class="minigame-desc">3 attempts to answer at least 1 of 2 questions (easy/hard). 47 questions across categories.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">04</div>
+      <div class="minigame-name">🙅 Never Have I Ever</div>
+      <div class="minigame-desc">3 statements per round. Players self-identify. 49 unique prompts.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">05</div>
+      <div class="minigame-name">🤔 Who's Most Likely</div>
+      <div class="minigame-desc">Group vote mechanic. 3 questions, group nominates a player each time. 48 questions.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">06</div>
+      <div class="minigame-name">💬 Truth or Dare</div>
+      <div class="minigame-desc">Truth with 3 attempt limit, or skip and pay the counter. 40 unique truths.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">07</div>
+      <div class="minigame-name">🔫 Russian Roulette</div>
+      <div class="minigame-desc">6-chamber animation. Device passed hand-to-hand. The "bullet" chamber triggers a full glass.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">08</div>
+      <div class="minigame-name">💀 Elimination Roulette</div>
+      <div class="minigame-desc">Elimination mechanic. Players fall in sequence. Last standing loses.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">09</div>
+      <div class="minigame-name">🏷️ Auction</div>
+      <div class="minigame-desc">30-second timer auction. Highest bidder wins a special card. Entry point for the card inventory system.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">10</div>
+      <div class="minigame-name">🔴 Chaos Button</div>
+      <div class="minigame-desc">Animated chaos button. Random outcome — positive or negative — revealed on press.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">11</div>
+      <div class="minigame-name">🎓 Trivia Challenge</div>
+      <div class="minigame-desc">General knowledge questions with per-question penalty scaling.</div>
+    </div>
+    <div class="minigame-card">
+      <div class="minigame-num">12</div>
+      <div class="minigame-name">🤥 Liar's Hour</div>
+      <div class="minigame-desc">Deduction round. One player bluffs, group detects. Wrong reads accumulate counter.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Special Cards</div>
+  <h2 class="section-title">Inventory system</h2>
+  <p class="section-text" style="margin-bottom:1.5rem;">Cards earned at the Auction are stored per player and can be activated from the end-of-round inventory screen. Each card dispatches a specific state action that modifies the next round's behavior.</p>
+  <div class="cards-grid">
+    <div class="special-card"><strong>Shield</strong>Blocks the next counter hit for the holder.</div>
+    <div class="special-card"><strong>Double Penalty</strong>Doubles the next counter hit received by target.</div>
+    <div class="special-card"><strong>Immunity</strong>Full immunity for the holder's next round.</div>
+    <div class="special-card"><strong>Rematch</strong>Replays the previous minigame.</div>
+    <div class="special-card"><strong>Wildcard</strong>Holder assigns their counter hit to any other player.</div>
+    <div class="special-card"><strong>Reverse Mirror</strong>Transfers the mirror effect to another player.</div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-label">Project Structure</div>
+  <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:1.5rem;margin-bottom:3rem;overflow-x:auto;">
+    <pre style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-mid);line-height:1.8;">src/
+├── context/
+│   └── GameContext.jsx       <span style="color:var(--text-dim);"># Global state — useReducer</span>
+├── screens/
+│   ├── SplashScreen.jsx      <span style="color:var(--text-dim);"># Animated entry</span>
+│   ├── HomeScreen.jsx
+│   ├── PlayersScreen.jsx     <span style="color:var(--text-dim);"># Player registration</span>
+│   ├── RevealScreen.jsx      <span style="color:var(--text-dim);"># Slot machine reveal</span>
+│   ├── EndRoundScreen.jsx    <span style="color:var(--text-dim);"># Card inventory usage</span>
+│   ├── GameOverScreen.jsx
+│   └── InventoryScreen.jsx
+├── minigames/                <span style="color:var(--text-dim);"># 12 independent screens</span>
+│   ├── Todis.jsx
+│   ├── RuletaRusa.jsx
+│   ├── Subasta.jsx           <span style="color:var(--text-dim);"># Timer + card earn</span>
+│   └── ...
+├── components/
+│   ├── ReglasModal.jsx       <span style="color:var(--text-dim);"># Per-minigame rules modal</span>
+│   ├── EspejoIndicator.jsx   <span style="color:var(--text-dim);"># Mirror effect banner</span>
+│   ├── CardSpecial.jsx       <span style="color:var(--text-dim);"># Expandable card component</span>
+│   └── Timer.jsx
+├── data/                     <span style="color:var(--text-dim);"># Static content banks</span>
+│   ├── trivia.js             <span style="color:var(--text-dim);"># 47 questions</span>
+│   ├── cartas.js             <span style="color:var(--text-dim);"># 48 challenges</span>
+│   └── cartasEspeciales.js
+└── utils/
+    └── sounds.js             <span style="color:var(--text-dim);"># Vibration patterns (no audio)</span></pre>
+  </div>
+
+</div>
+
+<div class="project-nav">
+  <a href="multitenant.html" class="proj-nav-link">
+    <span class="proj-nav-label">← Prev</span>
+    <span class="proj-nav-title">Multi-tenant SaaS API</span>
+  </a>
+  <a href="index.html#open-source" class="proj-nav-center">All Personal Projects ↑</a>
+  <a href="thesis.html" class="proj-nav-link right">
+    <span class="proj-nav-label">Next →</span>
+    <span class="proj-nav-title">Thesis — Cost Management</span>
+  </a>
+</div>
+
+<footer>
+  <span class="footer-logo">guillermo<span>.dev</span></span>
+  <span class="footer-copy">© 2026 Guillermo Maldonado Gil · Cochabamba, Bolivia</span>
+</footer>
+
+</body>
+</html>

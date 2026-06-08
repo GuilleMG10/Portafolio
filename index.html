@@ -4,6 +4,27 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Guillermo Maldonado — Backend Engineer</title>
+
+<!-- SEO -->
+<meta name="description" content="Backend Software Engineer specialized in scalable REST APIs, Clean Architecture, and full-stack development. 5 production systems shipped across healthcare, fitness, construction, and non-profit sectors. Based in Cochabamba, Bolivia — open to remote roles."/>
+<meta name="author" content="Guillermo Maldonado Gil"/>
+<meta name="robots" content="index, follow"/>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://portafolio-guillermomaldonado.netlify.app/"/>
+<meta property="og:title" content="Guillermo Maldonado — Backend Engineer"/>
+<meta property="og:description" content="Backend Engineer. 5 production systems across healthcare, fitness, construction, and non-profit. Clean Architecture · NestJS · PostgreSQL · Open to remote roles."/>
+<meta property="og:locale" content="en_US"/>
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Guillermo Maldonado — Backend Engineer"/>
+<meta name="twitter:description" content="Backend Engineer. 5 production systems across healthcare, fitness, construction, and non-profit. Clean Architecture · NestJS · PostgreSQL · Open to remote roles."/>
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -14,7 +35,7 @@
     --bg-card:   #111119;
     --border:    #1E1E2E;
     --border-2:  #2A2A3E;
-    --accent:    #4F8EF7;
+    --accent:    #6366F1;
     --accent-2:  #7B5EA7;
     --accent-3:  #2DD4BF;
     --text:      #E8E6F0;
@@ -58,7 +79,7 @@
     transform: translateX(-50%);
     width: 80vw;
     height: 60vh;
-    background: radial-gradient(ellipse, rgba(79,142,247,0.06) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(99,102,241,0.08) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
@@ -118,58 +139,152 @@
   .hero {
     min-height: 100vh;
     display: flex;
-    align-items: center;
-    padding: 8rem 4rem 5rem;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10rem 4rem 6rem;
     position: relative;
     z-index: 1;
+    overflow: hidden;
   }
 
-  .hero-content { max-width: 760px; }
+  /* aurora blobs */
+  .aurora {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
 
-  .hero-tag {
-    display: inline-flex;
+  .aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+  }
+
+  .aurora-blob:nth-child(1) {
+    width: 600px; height: 550px;
+    background: radial-gradient(ellipse, rgba(99,102,241,0.22) 0%, transparent 70%);
+    top: -160px; left: -120px;
+    animation: float1 14s ease-in-out infinite;
+  }
+
+  .aurora-blob:nth-child(2) {
+    width: 480px; height: 420px;
+    background: radial-gradient(ellipse, rgba(45,212,191,0.14) 0%, transparent 70%);
+    top: 25%; right: -140px;
+    animation: float2 11s ease-in-out infinite;
+  }
+
+  .aurora-blob:nth-child(3) {
+    width: 380px; height: 340px;
+    background: radial-gradient(ellipse, rgba(123,94,167,0.16) 0%, transparent 70%);
+    bottom: -80px; left: 38%;
+    animation: float3 13s ease-in-out infinite;
+  }
+
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0); }
+    50%       { transform: translate(50px, 35px); }
+  }
+
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0); }
+    50%       { transform: translate(-45px, 55px); }
+  }
+
+  @keyframes float3 {
+    0%, 100% { transform: translate(0, 0); }
+    50%       { transform: translate(35px, -45px); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .hero-eyebrow {
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: space-between;
+    margin-bottom: 4rem;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     letter-spacing: 0.1em;
-    color: var(--accent);
-    border: 1px solid rgba(79,142,247,0.3);
-    background: rgba(79,142,247,0.06);
-    padding: 0.35rem 0.9rem;
-    border-radius: 3px;
-    margin-bottom: 2rem;
+    color: var(--text-mid);
     opacity: 0;
     animation: fadeUp 0.7s 0.1s forwards;
   }
 
-  .hero-tag::before {
-    content: '';
-    width: 6px; height: 6px;
+  .hero-eyebrow > span:first-child { color: var(--accent); }
+
+  .eyebrow-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .lang-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 3px;
+    border: 1px solid var(--border-2);
+    color: var(--text-mid);
+    background: var(--bg-3);
+    transition: all 0.2s;
+  }
+  .lang-badge--es { border-color: rgba(99,102,241,0.4); color: var(--accent); background: rgba(99,102,241,0.06); }
+  .lang-badge--en { border-color: rgba(45,212,191,0.4); color: var(--accent-3); background: rgba(45,212,191,0.06); }
+
+  .eyebrow-status {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--accent-3);
+  }
+
+  .eyebrow-dot {
+    width: 5px; height: 5px;
     border-radius: 50%;
     background: var(--accent-3);
+    flex-shrink: 0;
     animation: pulse 2s infinite;
   }
 
   .hero h1 {
-    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-size: clamp(3.2rem, 7.5vw, 7.5rem);
     font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    margin-bottom: 1.5rem;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    margin-bottom: 2.5rem;
     opacity: 0;
     animation: fadeUp 0.7s 0.25s forwards;
   }
 
-  .hero h1 .line-dim { color: var(--text-mid); font-weight: 300; }
-  .hero h1 .line-accent { color: var(--accent); }
+  .hero-h1-primary {
+    display: block;
+    color: var(--text);
+  }
+
+  .hero-h1-accent {
+    display: block;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
   .hero-desc {
     font-size: 1rem;
     color: var(--text-mid);
-    line-height: 1.75;
+    line-height: 1.8;
     max-width: 500px;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3.5rem;
     opacity: 0;
     animation: fadeUp 0.7s 0.4s forwards;
   }
@@ -199,11 +314,14 @@
 
   .btn-primary {
     background: var(--accent);
-    color: var(--bg);
+    color: #fff;
     font-weight: 500;
   }
 
-  .btn-primary:hover { background: #6BA3FF; transform: translateY(-2px); }
+  .btn-primary:hover {
+    background: #7577F5;
+    box-shadow: 0 0 28px rgba(99,102,241,0.5);
+  }
 
   .btn-ghost {
     border: 1px solid var(--border-2);
@@ -212,6 +330,44 @@
   }
 
   .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  .btn-github {
+    border: 1px solid rgba(99,102,241,0.35);
+    color: var(--accent);
+    background: rgba(99,102,241,0.07);
+  }
+
+  .btn-github:hover {
+    border-color: var(--accent);
+    background: rgba(99,102,241,0.15);
+    box-shadow: 0 0 18px rgba(99,102,241,0.25);
+    transform: translateY(-2px);
+  }
+
+  .btn-cv {
+    border: 1px solid rgba(125,94,167,0.35);
+    color: var(--accent-2);
+    background: rgba(125,94,167,0.07);
+  }
+
+  .btn-cv:hover {
+    border-color: var(--accent-2);
+    background: rgba(125,94,167,0.15);
+    transform: translateY(-2px);
+  }
+
+  .btn-teal {
+    background: rgba(45,212,191,0.1);
+    border: 1px solid rgba(45,212,191,0.35);
+    color: var(--accent-3);
+  }
+
+  .btn-teal:hover {
+    background: rgba(45,212,191,0.18);
+    border-color: var(--accent-3);
+    box-shadow: 0 0 22px rgba(45,212,191,0.28);
+    transform: translateY(-2px);
+  }
 
   /* ── STATS BAR ── */
   .stats-bar {
@@ -321,15 +477,14 @@
     display: grid;
     grid-template-columns: 280px 1fr;
     min-height: 240px;
-    transition: border-color 0.25s, transform 0.25s;
+    transition: border-color 0.25s;
     cursor: pointer;
     margin-bottom: 1rem;
+    position: relative;
+    will-change: transform;
   }
 
-  .project-card:hover {
-    border-color: var(--accent);
-    transform: translateX(4px);
-  }
+  .project-card:hover { border-color: var(--accent); }
 
   .project-card.featured {
     grid-template-columns: 1fr;
@@ -492,6 +647,164 @@
     border-radius: 3px;
   }
 
+  .nda-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+  }
+
+  /* ── HERO CTA GROUPS ── */
+  .hero-cta-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.7s 0.55s forwards;
+  }
+
+  .hero-cta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-cta-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* ── STAT ACHIEVEMENT ── */
+  .stat--achievement .stat-num { color: #F5C842; }
+  .stat--achievement::before { background: #F5C842 !important; }
+
+  /* ── OPEN SOURCE SECTION ── */
+  .oss-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .oss-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: border-color 0.25s;
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  .oss-card:hover { border-color: var(--accent-3); }
+
+  .oss-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .oss-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-3);
+    border: 1px solid rgba(45,212,191,0.3);
+    background: rgba(45,212,191,0.06);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .oss-icon { font-size: 2rem; opacity: 0.7; }
+
+  .oss-sector {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-3);
+    margin-bottom: 0.4rem;
+  }
+
+  .oss-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .oss-desc {
+    font-size: 0.875rem;
+    color: var(--text-mid);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .oss-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .oss-highlights {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .oss-highlights li {
+    font-size: 0.78rem;
+    color: var(--text-mid);
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .oss-highlights li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent-3);
+    font-size: 0.9rem;
+  }
+
+  .oss-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .github-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent-3);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    transition: gap 0.2s;
+  }
+
+  .github-link:hover { gap: 0.7rem; }
+
   .arrow-link {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.68rem;
@@ -577,6 +890,44 @@
   .t-str { color: #F5C842; }
   .t-punct { color: var(--text-mid); }
   .t-arr { color: var(--accent-2); }
+
+  /* ── CONTACT SPLIT ── */
+  .contact-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: 860px;
+    margin: 3rem auto 0;
+    text-align: left;
+  }
+
+  .contact-col-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-col-desc {
+    font-size: 0.9rem;
+    color: var(--text-mid);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .contact-col-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .thesis-highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
 
   /* ── CONTACT ── */
   .contact-section {
@@ -664,7 +1015,11 @@
     nav { padding: 1rem 2rem; }
     .nav-links { gap: 1.5rem; }
     section { padding: 4rem 2rem; }
-    .hero { padding: 6rem 2rem 3rem; }
+    .hero { padding: 8rem 2rem 4rem; }
+    .hero-eyebrow { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .aurora-blob:nth-child(1) { width: 350px; height: 320px; }
+    .aurora-blob:nth-child(2) { width: 280px; height: 250px; }
+    .aurora-blob:nth-child(3) { width: 220px; height: 200px; }
     .stats-bar { flex-wrap: wrap; }
     .stat { min-width: 50%; border-bottom: 1px solid var(--border); }
     .project-card { grid-template-columns: 1fr; }
@@ -672,12 +1027,15 @@
     .project-highlights { grid-template-columns: 1fr; }
     .about-grid { grid-template-columns: 1fr; gap: 2rem; }
     footer { padding: 1.5rem 2rem; }
+    .oss-grid { grid-template-columns: 1fr; }
+    .contact-split { grid-template-columns: 1fr !important; }
+    .thesis-highlights { grid-template-columns: 1fr !important; }
   }
 
   /* ── MOBILE RESPONSIVE (hasta 600px) ── */
   @media (max-width: 600px) {
-    nav { 
-      padding: 1rem 1.5rem; 
+    nav {
+      padding: 1rem 1.5rem;
       flex-direction: column;
       gap: 1rem;
     }
@@ -688,18 +1046,20 @@
       flex-wrap: wrap;
     }
     .nav-cta {
-      padding: 0.3rem 0.8rem; 
+      padding: 0.3rem 0.8rem;
     }
     section { padding: 4rem 1.5rem; }
-    
-    .hero { 
-      padding: 8rem 1.5rem 4rem; 
+
+    .hero {
+      padding: 8rem 1.5rem 4rem;
     }
-    .hero-actions {
+    .hero-eyebrow {
       flex-direction: column;
-      width: 100%;
+      align-items: flex-start;
+      gap: 0.6rem;
     }
-    .hero-actions .btn {
+    .hero h1 .line-outline { -webkit-text-stroke-width: 1px; }
+    .hero-cta-row .btn {
       width: 100%;
       justify-content: center;
     }
@@ -720,47 +1080,155 @@
       font-size: 0.7rem; 
     }
     
-    .contact-card { 
-      width: 100%; 
+    .contact-card {
+      width: 100%;
     }
+    .contact-split { gap: 2rem; }
+    .thesis-highlights { grid-template-columns: 1fr !important; }
     
-    footer { 
-      padding: 1.5rem; 
-      flex-direction: column; 
+    footer {
+      padding: 1.5rem;
+      flex-direction: column;
       text-align: center;
-      gap: 0.8rem; 
+      gap: 0.8rem;
     }
   }
+
+  /* ── SCROLL PROGRESS ── */
+  #scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-3));
+    z-index: 9999;
+    pointer-events: none;
+    transition: width 0.08s linear;
+  }
+
+  /* ── ACTIVE NAV ── */
+  .nav-links a.nav-active {
+    color: var(--accent);
+  }
+
+  /* ── BACK TO TOP ── */
+  #back-to-top {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    width: 38px; height: 38px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: none;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.3s, transform 0.3s, border-color 0.2s, color 0.2s;
+    z-index: 500;
+  }
+
+  #back-to-top.btt-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #back-to-top:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  @media (pointer: coarse) {
+    #back-to-top { cursor: pointer; }
+  }
+
+  /* ── GRAIN / NOISE ── */
+  @keyframes grain {
+    0%,100% { transform: translate(0,0); }
+    10%     { transform: translate(-2%,-3%); }
+    30%     { transform: translate(3%,2%); }
+    50%     { transform: translate(-1%,3%); }
+    70%     { transform: translate(2%,-2%); }
+    90%     { transform: translate(-3%,1%); }
+  }
+
+  .grain {
+    position: fixed;
+    inset: -30%;
+    width: 160%; height: 160%;
+    pointer-events: none;
+    z-index: 9991;
+    opacity: 0.032;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 300px 300px;
+    animation: grain 0.7s steps(1) infinite;
+  }
+
+  /* ── PAGE EXIT ── */
+  body { transition: opacity 0.3s ease; }
+  body.page-exit { opacity: 0; pointer-events: none; }
 </style>
 </head>
 <body>
 
+<div id="scroll-progress"></div>
+<div class="grain" aria-hidden="true"></div>
 <nav>
   <a href="#" class="nav-logo">guillermo<span>.dev</span></a>
   <ul class="nav-links">
     <li><a href="#projects">projects</a></li>
+    <li><a href="#open-source">open source</a></li>
     <li><a href="#about">about</a></li>
     <li><a href="#contact" class="nav-cta">contact</a></li>
   </ul>
 </nav>
 
 <section class="hero">
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+    <div class="aurora-blob"></div>
+  </div>
   <div class="hero-content">
-    <span class="hero-tag">Backend - Fullstack · Cochabamba, Bolivia</span>
+    <div class="hero-eyebrow">
+      <span>// guillermo.maldonado · backend engineer · cochabamba, bolivia</span>
+      <div class="eyebrow-right">
+        <span class="lang-badge lang-badge--es">ES</span>
+        <span class="lang-badge lang-badge--en">EN</span>
+        <span class="eyebrow-status">
+          <span class="eyebrow-dot"></span>
+          available for remote
+        </span>
+      </div>
+    </div>
     <h1>
-      <span class="line-dim">Backend Engineer.</span><br>
-      <span>Systems that</span><br>
-      <span class="line-accent">ship.</span>
+      <span class="hero-h1-primary">Built to last.</span>
+      <span class="hero-h1-accent">Not to impress.</span>
     </h1>
     <p class="hero-desc">
       I design and build scalable REST APIs, clean architecture backends,
       and full-stack systems for real businesses —
-      5 production systems across 4 industry sectors.
+      5 production systems across 4 industry sectors. No shortcuts.
     </p>
-    <div class="hero-actions">
-      <a href="#projects" class="btn btn-primary">View Projects →</a>
-      <a href="https://github.com/GuilleMG10" class="btn btn-ghost" target="_blank">GitHub ↗</a>
-      <a href="mailto:guillermomaldonadodev@gmail.com" class="btn btn-ghost">Contact</a>
+    <div class="hero-cta-groups">
+      <div>
+        <div class="hero-cta-label">// remote engineering roles</div>
+        <div class="hero-cta-row">
+          <a href="#projects" class="btn btn-primary">View Projects →</a>
+          <a href="https://github.com/GuilleMG10" class="btn btn-github" target="_blank">GitHub ↗</a>
+          <a href="CV_Guillermo_Maldonado.pdf" download class="btn btn-cv">CV ↓</a>
+        </div>
+      </div>
+      <div>
+        <div class="hero-cta-label">// freelance · Cochabamba</div>
+        <div class="hero-cta-row">
+          <a href="mailto:guillermomaldonadodev@gmail.com" class="btn btn-teal">Start a project →</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -774,11 +1242,11 @@
     <div class="stat-num">4</div>
     <div class="stat-label">Industry Sectors</div>
   </div>
-  <div class="stat">
+  <div class="stat stat--achievement">
     <div class="stat-num">6<span>th</span></div>
     <div class="stat-label">ICPC Bolivia 2023</div>
   </div>
-  <div class="stat">
+  <div class="stat stat--achievement">
     <div class="stat-num">100<span>/100</span></div>
     <div class="stat-label">Thesis Score</div>
   </div>
@@ -809,7 +1277,7 @@
       </div>
       <div class="project-right">
         <h3 class="project-title">ACS Bolivia Web Platform</h3>
-        <p class="project-desc">Official web platform for the American College of Surgeons Bolivia chapter. Built for congress and student management, with a public-facing site receiving thousands of visitors and a private admin panel for the ACS board members.</p>
+        <p class="project-desc">The Bolivian chapter of the American College of Surgeons had no digital presence and managed congress registrations manually. Built a full-stack platform: public site now receiving thousands of monthly visitors and a password-protected admin panel for the ACS board to manage events, members, and student registrations — requirements gathered directly with board leadership.</p>
         <div class="project-tech">
           <span class="tech-tag">NestJS</span>
           <span class="tech-tag">Next.js</span>
@@ -819,13 +1287,16 @@
           <span class="tech-tag">JWT</span>
         </div>
         <ul class="project-highlights">
-          <li>Public landing with thousands of visitors</li>
-          <li>Private admin panel for board members</li>
-          <li>Registration system with full validation</li>
-          <li>Direct requirements with ACS board</li>
+          <li>Thousands of monthly visitors</li>
+          <li>Private board admin panel</li>
+          <li>Congress & student registration system</li>
+          <li>Direct stakeholder requirements</li>
         </ul>
         <div class="project-footer-row">
-          <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+            <span class="nda-badge">Private · NDA</span>
+          </div>
           <a href="acs-bolivia.html" class="arrow-link" style="text-decoration:none;">View details →</a>
         </div>
       </div>
@@ -842,7 +1313,7 @@
       </div>
       <div class="project-right">
         <h3 class="project-title">Construction Management System</h3>
-        <p class="project-desc">Comprehensive management system used daily by construction company staff. Handles project tracking, employee management, contract control, materials logistics, and budget monitoring across active construction sites.</p>
+        <p class="project-desc">A construction company was coordinating projects, employee shifts, contracts, and material logistics across multiple active sites through spreadsheets. Built a unified backend platform now used daily by all company staff — centralizes project progress, budget control, contract status, and materials logistics under a single role-based system. Deployed with Docker and fully automated CI/CD.</p>
         <div class="project-tech">
           <span class="tech-tag">NestJS</span>
           <span class="tech-tag">PostgreSQL</span>
@@ -852,13 +1323,16 @@
           <span class="tech-tag">CI/CD</span>
         </div>
         <ul class="project-highlights">
-          <li>Project and progress tracking API</li>
-          <li>Contracts, materials & budget</li>
-          <li>Role-based access for all staff</li>
-          <li>Production deploy with CI/CD</li>
+          <li>Multi-site project & progress tracking</li>
+          <li>Contracts, materials & budget control</li>
+          <li>Role-based access for all staff levels</li>
+          <li>Dockerized deploy with CI/CD pipeline</li>
         </ul>
         <div class="project-footer-row">
-          <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+            <span class="nda-badge">Private · NDA</span>
+          </div>
           <a href="coninarde.html" class="arrow-link" style="text-decoration:none;">View details →</a>
         </div>
       </div>
@@ -875,7 +1349,7 @@
       </div>
       <div class="project-right">
         <h3 class="project-title">Gym Management Software</h3>
-        <p class="project-desc">Custom backend system for a gym managing memberships, attendance tracking, payment control, and user profiles. Deployed and actively used by gym staff and clients on a daily basis.</p>
+        <p class="project-desc">A local gym was tracking memberships and attendance manually. Built a custom backend from scratch — covering membership lifecycle, attendance control, payment tracking, and role-based access for staff and clients. Running continuously in production since June 2023. My first fully independent end-to-end production delivery.</p>
         <div class="project-tech">
           <span class="tech-tag">Node.js</span>
           <span class="tech-tag">TypeScript</span>
@@ -884,13 +1358,16 @@
           <span class="tech-tag">RBAC</span>
         </div>
         <ul class="project-highlights">
-          <li>Membership & attendance API</li>
-          <li>Payment and billing tracking</li>
-          <li>Role-based access control</li>
-          <li>Custom DB for gym operations</li>
+          <li>Membership lifecycle management</li>
+          <li>Attendance & payment tracking</li>
+          <li>RBAC for staff and members</li>
+          <li>Running in production since 2023</li>
         </ul>
         <div class="project-footer-row">
-          <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+            <span class="nda-badge">Private · NDA</span>
+          </div>
           <a href="gym.html" class="arrow-link" style="text-decoration:none;">View details →</a>
         </div>
       </div>
@@ -907,7 +1384,7 @@
       </div>
       <div class="project-right">
         <h3 class="project-title">Estética Clínica — Admin System</h3>
-        <p class="project-desc">Administrative backend for an aesthetic clinic. Manages appointments, patient records, treatment history, and staff roles — designed around the clinic's daily operational workflow and built for reliability.</p>
+        <p class="project-desc">An aesthetic clinic was managing patient records, appointments, and treatment histories through paper and disconnected spreadsheets. Built a full admin backend that digitized their entire operational workflow — doctors, receptionists, and admins each get role-scoped access with full patient history, appointment scheduling, and treatment tracking.</p>
         <div class="project-tech">
           <span class="tech-tag">NestJS</span>
           <span class="tech-tag">Prisma</span>
@@ -916,50 +1393,136 @@
           <span class="tech-tag">RBAC</span>
         </div>
         <ul class="project-highlights">
-          <li>Appointment & patient management</li>
-          <li>Treatment history tracking</li>
-          <li>Auth and RBAC for all roles</li>
-          <li>Custom DB for clinic needs</li>
+          <li>Appointment scheduling system</li>
+          <li>Full patient & treatment history</li>
+          <li>Role-scoped access per staff type</li>
+          <li>Paper workflow fully digitized</li>
         </ul>
         <div class="project-footer-row">
-          <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <span class="live-badge"><span class="live-dot"></span>Live in production</span>
+            <span class="nda-badge">Private · NDA</span>
+          </div>
           <a href="clinica.html" class="arrow-link" style="text-decoration:none;">View details →</a>
         </div>
       </div>
     </div>
 
-    <div class="project-card" style="--project-color: #F5C842; border-color: rgba(245,200,66,0.2);">
-      <div class="project-left" style="background: rgba(245,200,66,0.04);">
-        <div>
-          <div class="project-num">PROJECT / 05</div>
-          <div class="project-icon-wrap">🎓</div>
-          <div class="project-sector" style="color:#F5C842;">Thesis · Undergraduate</div>
-        </div>
-        <div class="project-period">Aug 2025 – Apr 2026</div>
+  </div>
+</section>
+
+<section id="open-source">
+  <div class="section-eyebrow">
+    <span class="eyebrow-num">02</span>
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Personal Projects</span>
+  </div>
+  <h2 class="section-title">Built for the craft.<br><span style="color:var(--text-mid);font-weight:300;">Open code, real decisions.</span></h2>
+
+  <div class="oss-grid">
+
+    <div class="oss-card">
+      <div class="oss-card-header">
+        <div class="oss-icon">🏗️</div>
+        <span class="oss-badge">Open Source · GitHub</span>
       </div>
-      <div class="project-right">
-        <h3 class="project-title">Cost Management System for Bolivian Entrepreneurs</h3>
-        <p class="project-desc">Full-stack system designed for Bolivian entrepreneurs to manage business costs, finances, and operations. My undergraduate thesis at UCB — scored 100/100 and graduated with honors. Built with microservices architecture designed for long-term scale.</p>
-        <div class="project-tech">
-          <span class="tech-tag">Microservices</span>
-          <span class="tech-tag">NestJS</span>
-          <span class="tech-tag">Next.js</span>
-          <span class="tech-tag">PostgreSQL</span>
-          <span class="tech-tag">Clean Architecture</span>
-          <span class="tech-tag">SOLID</span>
-          <span class="tech-tag">RBAC</span>
-          <span class="tech-tag">Cloud Deploy</span>
+      <div>
+        <div class="oss-sector">SaaS · Backend Infrastructure</div>
+        <h3 class="oss-title">Multi-tenant SaaS API</h3>
+      </div>
+      <p class="oss-desc">Production-grade multi-tenant REST API designed to demonstrate Clean Architecture, SOLID principles, and the ability to build scalable SaaS infrastructure. Each tenant gets its own isolated PostgreSQL schema — the <code style="font-family:'JetBrains Mono',monospace;font-size:0.8em;color:var(--accent);">TenantInterceptor</code> resolves the tenant from the <code style="font-family:'JetBrains Mono',monospace;font-size:0.8em;color:var(--accent);">X-Tenant-ID</code> header on every request and scopes queries accordingly.</p>
+      <ul class="oss-highlights">
+        <li>Schema-per-tenant isolation via PostgreSQL search_path</li>
+        <li>JWT auth with access + refresh token rotation</li>
+        <li>Stripe subscriptions, webhooks, and billing portal</li>
+        <li>Swagger/OpenAPI 3.0 docs · Docker + docker-compose</li>
+        <li>SUPER_ADMIN / ADMIN / MEMBER RBAC with custom guards</li>
+      </ul>
+      <div class="oss-tech">
+        <span class="tech-tag">NestJS 10</span>
+        <span class="tech-tag">TypeScript strict</span>
+        <span class="tech-tag">PostgreSQL 16</span>
+        <span class="tech-tag">TypeORM</span>
+        <span class="tech-tag">Stripe API</span>
+        <span class="tech-tag">JWT</span>
+        <span class="tech-tag">Docker</span>
+        <span class="tech-tag">Jest</span>
+        <span class="tech-tag">Swagger</span>
+      </div>
+      <div class="oss-footer">
+        <a href="https://github.com/GuilleMG10/api-multitenant" class="github-link" target="_blank">GitHub ↗</a>
+        <a href="multitenant.html" class="arrow-link" style="text-decoration:none;color:var(--text-dim);">View details →</a>
+      </div>
+    </div>
+
+    <div class="oss-card">
+      <div class="oss-card-header">
+        <div class="oss-icon">🎮</div>
+        <span class="oss-badge">Open Source · GitHub</span>
+      </div>
+      <div>
+        <div class="oss-sector">Mobile · React Native</div>
+        <h3 class="oss-title">O'Cañamos?</h3>
+      </div>
+      <p class="oss-desc">Android party game for groups — designed to be passed hand-to-hand on a single device. The technical challenge: 12 minigames each with completely different mechanics, animations, and rules, all driven by a single <code style="font-family:'JetBrains Mono',monospace;font-size:0.8em;color:var(--accent);">useReducer</code> state machine. Animations built entirely on the React Native Animated API — no audio files, no third-party animation libraries.</p>
+      <ul class="oss-highlights">
+        <li>12 minigames with distinct mechanics and animated transitions</li>
+        <li>Special card inventory system with game-state effects</li>
+        <li>Global state machine via useReducer + Context API</li>
+        <li>Haptic feedback via Vibration API · portrait locked</li>
+        <li>EAS Build → APK distribution for Android</li>
+      </ul>
+      <div class="oss-tech">
+        <span class="tech-tag">React Native</span>
+        <span class="tech-tag">Expo SDK 54</span>
+        <span class="tech-tag">React Navigation v7</span>
+        <span class="tech-tag">Animated API</span>
+        <span class="tech-tag">useReducer</span>
+        <span class="tech-tag">EAS Build</span>
+      </div>
+      <div class="oss-footer">
+        <a href="https://github.com/GuilleMG10/ocanamos" class="github-link" target="_blank">GitHub ↗</a>
+        <a href="ocanamos.html" class="arrow-link" style="text-decoration:none;color:var(--text-dim);">View details →</a>
+      </div>
+    </div>
+
+    <div class="oss-card" style="grid-column: 1 / -1; --project-color: #F5C842; border-color: rgba(245,200,66,0.15); background: rgba(245,200,66,0.02);">
+      <div class="oss-card-header">
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <div class="oss-icon">🎓</div>
+          <div>
+            <div class="oss-sector" style="color:#F5C842;">Academic · Undergraduate Thesis</div>
+            <h3 class="oss-title" style="margin-bottom:0;">Cost Management System for Bolivian Entrepreneurs</h3>
+          </div>
         </div>
-        <ul class="project-highlights">
-          <li>Microservices architecture</li>
-          <li>Complex relational DB modeling</li>
-          <li>Cloud infrastructure deployment</li>
-          <li>Clean Architecture + SOLID</li>
+        <span class="special-badge" style="white-space:nowrap;align-self:flex-start;">⭐ 100/100 · Honors</span>
+      </div>
+      <p class="oss-desc" style="max-width:700px;">Designed and built as my undergraduate capstone at UCB — a full-stack financial and cost management platform for Bolivian entrepreneurs. The system uses microservices architecture with independent NestJS services, a shared PostgreSQL schema with complex relational modeling, and a Next.js frontend. Defended publicly before an academic board and scored 100/100. Graduated with honors.</p>
+      <div class="thesis-highlights">
+        <ul class="oss-highlights">
+          <li>Microservices architecture with independent services</li>
+          <li>Complex relational DB modeling across domains</li>
+          <li>Clean Architecture + SOLID throughout</li>
         </ul>
-        <div class="project-footer-row">
-          <span class="special-badge">⭐ Score 100/100 · Graduated with Honors</span>
-          <a href="thesis.html" class="arrow-link" style="text-decoration:none;">View details →</a>
-        </div>
+        <ul class="oss-highlights">
+          <li>Cloud infrastructure deployment</li>
+          <li>Role-based access for different user types</li>
+          <li>Full-stack: NestJS API + Next.js frontend</li>
+        </ul>
+      </div>
+      <div class="oss-tech">
+        <span class="tech-tag">Microservices</span>
+        <span class="tech-tag">NestJS</span>
+        <span class="tech-tag">Next.js</span>
+        <span class="tech-tag">PostgreSQL</span>
+        <span class="tech-tag">Clean Architecture</span>
+        <span class="tech-tag">SOLID</span>
+        <span class="tech-tag">RBAC</span>
+        <span class="tech-tag">Cloud Deploy</span>
+      </div>
+      <div class="oss-footer">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);">Universidad Católica Boliviana · Aug 2025 – Apr 2026</span>
+        <a href="thesis.html" class="arrow-link" style="text-decoration:none;color:var(--text-dim);">View details →</a>
       </div>
     </div>
 
@@ -968,7 +1531,7 @@
 
 <section id="about" class="about-section">
   <div class="section-eyebrow">
-    <span class="eyebrow-num">02</span>
+    <span class="eyebrow-num">03</span>
     <div class="eyebrow-line"></div>
     <span class="eyebrow-text">About</span>
   </div>
@@ -993,6 +1556,8 @@
         <div><span class="t-punct">{</span></div>
         <div>&nbsp;&nbsp;<span class="t-key">"role"</span><span class="t-punct">:</span> <span class="t-str">"Backend Engineer"</span><span class="t-punct">,</span></div>
         <div>&nbsp;&nbsp;<span class="t-key">"location"</span><span class="t-punct">:</span> <span class="t-str">"Cochabamba, Bolivia"</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"timezone"</span><span class="t-punct">:</span> <span class="t-str">"UTC-4 · Bolivia"</span><span class="t-punct">,</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"english"</span><span class="t-punct">:</span> <span class="t-str">"B2+ · Professional"</span><span class="t-punct">,</span></div>
         <div>&nbsp;&nbsp;<span class="t-key">"backend"</span><span class="t-punct">:</span> <span class="t-arr">[</span><span class="t-str">"NestJS"</span><span class="t-punct">,</span> <span class="t-str">"Node.js"</span><span class="t-punct">,</span> <span class="t-str">"TypeScript"</span><span class="t-arr">]</span><span class="t-punct">,</span></div>
         <div>&nbsp;&nbsp;<span class="t-key">"frontend"</span><span class="t-punct">:</span> <span class="t-arr">[</span><span class="t-str">"React"</span><span class="t-punct">,</span> <span class="t-str">"Next.js"</span><span class="t-arr">]</span><span class="t-punct">,</span></div>
         <div>&nbsp;&nbsp;<span class="t-key">"databases"</span><span class="t-punct">:</span> <span class="t-arr">[</span><span class="t-str">"PostgreSQL"</span><span class="t-punct">,</span> <span class="t-str">"Prisma"</span><span class="t-arr">]</span><span class="t-punct">,</span></div>
@@ -1000,39 +1565,55 @@
         <div>&nbsp;&nbsp;<span class="t-key">"languages"</span><span class="t-punct">:</span> <span class="t-arr">[</span><span class="t-str">"TypeScript"</span><span class="t-punct">,</span> <span class="t-str">"Python"</span><span class="t-punct">,</span> <span class="t-str">"C++"</span><span class="t-arr">]</span><span class="t-punct">,</span></div>
         <div>&nbsp;&nbsp;<span class="t-key">"icpc"</span><span class="t-punct">:</span> <span class="t-str">"6th place Bolivia 2023"</span><span class="t-punct">,</span></div>
         <div>&nbsp;&nbsp;<span class="t-key">"thesis"</span><span class="t-punct">:</span> <span class="t-val">100</span><span class="t-punct">,</span></div>
-        <div>&nbsp;&nbsp;<span class="t-key">"open_to"</span><span class="t-punct">:</span> <span class="t-str">"backend roles"</span></div>
+        <div>&nbsp;&nbsp;<span class="t-key">"open_to"</span><span class="t-punct">:</span> <span class="t-arr">[</span><span class="t-str">"remote roles"</span><span class="t-punct">,</span> <span class="t-str">"freelance projects"</span><span class="t-arr">]</span></div>
         <div><span class="t-punct">}</span></div>
       </div>
     </div>
   </div>
+
+
 </section>
 
 <section id="contact" class="contact-section">
   <div class="section-eyebrow" style="justify-content:center; margin-bottom:1rem;">
-    <span class="eyebrow-num">03</span>
+    <span class="eyebrow-num">04</span>
     <div class="eyebrow-line"></div>
     <span class="eyebrow-text">Contact</span>
   </div>
   <h2 class="section-title">Let's build<br><span style="color:var(--text-mid);font-weight:300;">something that ships.</span></h2>
-  <p style="font-size:0.95rem;color:var(--text-mid);max-width:440px;margin:0 auto;line-height:1.7;">
-    Open to backend engineering roles, freelance projects, and interesting collaborations.
-  </p>
-  <div class="contact-grid">
-    <a href="mailto:guillermomaldonadodev@gmail.com" class="contact-card">
-      <span class="contact-card-icon">✉</span>
-      <span class="contact-card-label">Email</span>
-      <span class="contact-card-value">guillermomaldonadodev@gmail.com</span>
-    </a>
-    <a href="https://linkedin.com/in/guillemaldonadodev" class="contact-card" target="_blank">
-      <span class="contact-card-icon">in</span>
-      <span class="contact-card-label">LinkedIn</span>
-      <span class="contact-card-value">guillemaldonadodev</span>
-    </a>
-    <a href="https://github.com/GuilleMG10" class="contact-card" target="_blank">
-      <span class="contact-card-icon">⌥</span>
-      <span class="contact-card-label">GitHub</span>
-      <span class="contact-card-value">GuilleMG10</span>
-    </a>
+
+  <div class="contact-split">
+    <div>
+      <div class="contact-col-label">// remote engineering roles</div>
+      <p class="contact-col-desc">Looking for a backend engineer who ships clean, production-ready systems? Let's have a technical conversation.</p>
+      <div class="contact-col-links">
+        <a href="https://linkedin.com/in/guillemaldonadodev" class="contact-card" target="_blank" style="flex-direction:row;justify-content:flex-start;min-width:unset;padding:1rem 1.25rem;">
+          <span class="contact-card-icon" style="font-size:1.1rem;">in</span>
+          <div>
+            <div class="contact-card-label">LinkedIn</div>
+            <div class="contact-card-value">guillemaldonadodev</div>
+          </div>
+        </a>
+        <a href="https://github.com/GuilleMG10" class="contact-card" target="_blank" style="flex-direction:row;justify-content:flex-start;min-width:unset;padding:1rem 1.25rem;">
+          <span class="contact-card-icon" style="font-size:1.1rem;">⌥</span>
+          <div>
+            <div class="contact-card-label">GitHub</div>
+            <div class="contact-card-value">GuilleMG10</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="contact-col-label">// freelance · Cochabamba</div>
+      <p class="contact-col-desc">Need a custom system built for your business? I design and build solutions from scratch — no templates, no generic tools, just software that fits how you actually work.</p>
+      <a href="mailto:guillermomaldonadodev@gmail.com" class="contact-card" style="flex-direction:row;justify-content:flex-start;min-width:unset;padding:1rem 1.25rem;">
+        <span class="contact-card-icon" style="font-size:1.1rem;">✉</span>
+        <div>
+          <div class="contact-card-label">Email</div>
+          <div class="contact-card-value">guillermomaldonadodev@gmail.com</div>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -1040,6 +1621,113 @@
   <span class="footer-logo">guillermo<span>.dev</span></span>
   <span class="footer-copy">© 2026 Guillermo Maldonado Gil · Cochabamba, Bolivia</span>
 </footer>
+
+<style>
+  .fade-card {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .fade-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<a href="#" id="back-to-top" aria-label="Back to top">↑</a>
+
+<script>
+  const isFine = window.matchMedia('(pointer: fine)').matches;
+
+  /* ── 1. Card fade-in on scroll ── */
+  const cardObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.project-card, .oss-card').forEach((card, i) => {
+    card.classList.add('fade-card');
+    card.style.transitionDelay = (i % 3) * 80 + 'ms';
+    cardObserver.observe(card);
+  });
+
+  /* ── 2. Scroll progress bar ── */
+  const progressBar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+    progressBar.style.width = Math.min(pct * 100, 100) + '%';
+  }, { passive: true });
+
+  /* ── 3. Active nav ── */
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  const navObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('nav-active'));
+        const a = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+        if (a && !a.classList.contains('nav-cta')) a.classList.add('nav-active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+  document.querySelectorAll('section[id]').forEach(s => navObserver.observe(s));
+
+  /* ── 4. Back to top ── */
+  const btt = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    btt.classList.toggle('btt-visible', window.scrollY > 400);
+  }, { passive: true });
+  btt.addEventListener('click', e => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ── 6. Animated stat counters ── */
+  const statData = [
+    { n: 5, sfx: '' }, { n: 4, sfx: '' },
+    { n: 6, sfx: 'th' }, { n: 100, sfx: '/100' }, { n: 3, sfx: '+' }
+  ];
+
+  function countUp(el, target, suffix, delay) {
+    setTimeout(() => {
+      const dur = 1600, t0 = performance.now();
+      (function tick(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        const v = Math.round((1 - Math.pow(1 - p, 4)) * target);
+        el.innerHTML = v + (suffix ? `<span>${suffix}</span>` : '');
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }, delay);
+  }
+
+  const statsBar = document.querySelector('.stats-bar');
+  if (statsBar) {
+    new IntersectionObserver(([e], obs) => {
+      if (!e.isIntersecting) return;
+      obs.disconnect();
+      document.querySelectorAll('.stat-num').forEach((el, i) => {
+        const d = statData[i];
+        if (d) countUp(el, d.n, d.sfx, i * 130);
+      });
+    }, { threshold: 0.6 }).observe(statsBar);
+  }
+
+
+  /* ── 8. Page exit fade ── */
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:')
+        || link.target === '_blank' || link.hasAttribute('download')) return;
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      document.body.classList.add('page-exit');
+      setTimeout(() => { window.location.href = href; }, 310);
+    });
+  });
+</script>
 
 </body>
 </html>
